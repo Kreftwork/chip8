@@ -45,6 +45,7 @@ void Chip8::emulateCycle() {
                 {
                     --sp;
                     pc = stack[sp]; // Test if actually works correctly
+                    pc += 2;
                     break;
                 }
                 default:
@@ -360,7 +361,7 @@ void Chip8::emulateCycle() {
         }
     }
 
-    printf("\nCurrent opcode: 0x%X\n", opcode);
+    //printf("\nCurrent opcode: 0x%X\n", opcode);
 
     // Update timers
     if (delay_timer > 0) {
@@ -446,67 +447,67 @@ void Chip8::setKeys() {
     clearKeys();
     const Uint8* currentKeyStates = SDL_GetKeyboardState( NULL );
     if(currentKeyStates[SDL_SCANCODE_1]) {
-        printf("\n1 pressed");
+        //printf("\n1 pressed");
         key[0] = 1;
     }
     if (currentKeyStates[SDL_SCANCODE_2]) {
-        printf("\n2 Pressed");
+        //printf("\n2 Pressed");
         key[1] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_3]) {
-        printf("\n3 pressed");
+        //printf("\n3 pressed");
         key[2] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_4]) {
-        printf("\n4 pressed");
+        //printf("\n4 pressed");
         key[3] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_Q]) {
-        printf("\nQ pressed");
+        //printf("\nQ pressed");
         key[4] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_W]) {
-        printf("\nW pressed");
+        //printf("\nW pressed");
         key[5] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_E]) {
-        printf("\nE pressed");
+        //printf("\nE pressed");
         key[6] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_R]) {
-        printf("\nR pressed");
+        //printf("\nR pressed");
         key[7] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_A]) {
-        printf("\nA pressed");
+        //printf("\nA pressed");
         key[8] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_S]) {
-        printf("\nS pressed");
+        //printf("\nS pressed");
         key[9] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_D]) {
-        printf("\nD pressed");
+        //printf("\nD pressed");
         key[10] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_F]) {
-        printf("\nF pressed");
+        //printf("\nF pressed");
         key[11] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_Z]) {
-        printf("\nZ pressed");
+        //printf("\nZ pressed");
         key[12] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_X]) {
-        printf("\nX pressed");
+        //printf("\nX pressed");
         key[13] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_C]) {
-        printf("\nC pressed");
+        //printf("\nC pressed");
         key[14] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_V]) {
-        printf("\nV pressed");
+        //printf("\nV pressed");
         key[15] = 1;
     }
 }

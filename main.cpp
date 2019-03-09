@@ -2,8 +2,8 @@
 #include <SDL.h>
 #include "chip8.h"
 
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 320;
+const int SCREEN_WIDTH = 1280;
+const int SCREEN_HEIGHT = 640;
 
 //The window we'll be rendering to
 SDL_Window* gWindow = NULL;
@@ -34,7 +34,7 @@ int main(int argc, char* args[]) {
     //Event handler
     SDL_Event e;
 
-    bool loadSucceeded = myChip8.loadProgram("PONG");
+    bool loadSucceeded = myChip8.loadProgram("TETRIS");
     if (!loadSucceeded) {
         printf("Program loading failed!");
         return 0;
@@ -63,7 +63,7 @@ int main(int argc, char* args[]) {
         // NOTE: Currently implemented as continuous-response keys
         myChip8.setKeys();
         SDL_RenderPresent( gRenderer );
-        //SDL_Delay( 16 ); // Not good!!
+        SDL_Delay( 2 ); // Not good!!
     }
 
     //Destroy window
@@ -116,7 +116,7 @@ bool setupGraphics() {
 }
 
 void drawGraphics() {
-    int scale = 10;
+    int scale = 20;
     const unsigned char* graphicsRaw = myChip8.getGraphics();
     for (unsigned short yLine = 0; yLine < 32; ++yLine) {
         for (unsigned short xLine = 0; xLine < 64; ++xLine) {
