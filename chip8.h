@@ -10,13 +10,8 @@
 
 class Chip8 {
 public:
-    static int testiFunkkari()
-    {
-        return 12;
-    }
-
     // Constructor.
-    Chip8();
+    Chip8() = default;
 
     // Initializer.
     void initialize();

@@ -5,13 +5,13 @@
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 640;
 
-//The window we'll be rendering to
+// The window we'll be rendering to
 SDL_Window* gWindow = NULL;
 
-//The surface contained by the window
+// The surface contained by the window
 SDL_Surface* gScreenSurface = NULL;
 
-//The window renderer
+// The window renderer
 SDL_Renderer* gRenderer = NULL;
 
 Chip8 myChip8;
@@ -25,13 +25,10 @@ int main(int argc, char* args[]) {
     // Set up render system and register input callbacks
     setupGraphics();
 
-    // Needed??
-    //setupInput();
-
     // Initialize the Chip8 system and load the game into the memory
     myChip8.initialize();
 
-    //Event handler
+    // Event handler
     SDL_Event e;
 
     bool loadSucceeded = myChip8.loadProgram("TETRIS");
@@ -48,7 +45,7 @@ int main(int argc, char* args[]) {
                 return 0;
             }
         }
-        //Clear screen
+        // Clear screen
         SDL_SetRenderDrawColor( gRenderer, 0x00, 0x0011, 0x00, 0xFF );
         SDL_RenderClear( gRenderer );
         // Emulate one cycle
@@ -63,49 +60,41 @@ int main(int argc, char* args[]) {
         // NOTE: Currently implemented as continuous-response keys
         myChip8.setKeys();
         SDL_RenderPresent( gRenderer );
-        SDL_Delay( 2 ); // Not good!!
+        SDL_Delay( 2 );
     }
-
-    //Destroy window
-    //SDL_DestroyWindow( gWindow );
-
-    //Quit SDL subsystems
-    //SDL_Quit();
-
-    //return 0;
 }
 
 bool setupGraphics() {
-    //Initialization flag
+    // Initialization flag
     bool success = true;
 
-    //Initialize SDL
+    // Initialize SDL
     if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
     {
-        printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
+        std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << "\n";
         success = false;
     }
     else
     {
-        //Create window
+        // Create window
         gWindow = SDL_CreateWindow( "Chip8", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
-        if( gWindow == NULL )
+        if( gWindow == nullptr )
         {
-            printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
+            std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << "\n";
             success = false;
         }
         else
         {
-            //Create renderer for window
+            // Create renderer for window
             gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
-            if( gRenderer == NULL )
+            if( gRenderer == nullptr )
             {
-                printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
+                std::cout << "Renderer could not be created! SDL Error: " << SDL_GetError() << "\n";
                 success = false;
             }
             else
             {
-                //Initialize renderer color
+                // Initialize renderer color
                 SDL_SetRenderDrawColor( gRenderer, 0x00, 0x00, 0x00, 0xFF );
             }
 

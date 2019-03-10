@@ -3,22 +3,20 @@
 //
 
 #include "chip8.h"
-#include <time.h>
-#include <stdlib.h>
+
+#include <iostream>
+#include <ctime>
+
 #include <SDL.h>
-
-Chip8::Chip8() {
-
-}
 
 void Chip8::initialize() {
     pc = 0x200;     // PC starts at 0x200 on chip-8
     opcode = 0;     // Reset current opcode
     I = 0;          // Reset index register
     sp = 0;         // Reset stack pointer
-    drawFlag = true;// TODO: Check whether true or false on init
+    drawFlag = true;// Reset draw flag
 
-    srand(time(NULL));
+    std::srand(std::time(nullptr));
 
     clearDisplay();
     clearStack();
@@ -35,21 +33,21 @@ void Chip8::emulateCycle() {
     // Decode opcode
     // First, look on the first nibble (4 bits)
     switch (opcode & 0xF000) {
-        case 0x0000: // 0x00E0 or 0x00EE, disp_clear or subroutine return
+        case 0x0000: // 0x00E0 or 0x00EE, display_clear or subroutine return
             // Check the latest nibble
             switch (opcode & 0x000F) {
-                case 0x0000: // 0x00E0, disp_clear()
+                case 0x0000: // 0x00E0, display_clear()
                     clearDisplay();
                     break;
                 case 0x000E: // 0x00EE, subroutine return
                 {
                     --sp;
-                    pc = stack[sp]; // Test if actually works correctly
+                    pc = stack[sp];
                     pc += 2;
                     break;
                 }
                 default:
-                    printf ("Unknown opcode [0x0000]: 0x%X\n", opcode);
+                    std::cout << "Unknown opcode [0x0000]: 0x" << std::uppercase << std::hex << opcode << "\n" ;
             }
             break;
         case 0x1000: // 0x1NNN, Jump to NNN
@@ -187,7 +185,7 @@ void Chip8::emulateCycle() {
                     break;
                 }
                 default:
-                    printf ("Unknown opcode: 0x%X\n", opcode);
+                    std::cout << "Unknown opcode: 0x" << std::uppercase << std::hex << opcode << "\n" ;
             }
             break;
         }
@@ -210,7 +208,7 @@ void Chip8::emulateCycle() {
             break;
         }
         case 0xC000: { // 0xCXNN, Vx=rand()&NN
-            V[(opcode & 0x0FFF) >> 8] = ((rand() % 256) & (opcode & 0x00FF));
+            V[(opcode & 0x0FFF) >> 8] = ((std::rand() % 256) & (opcode & 0x00FF));
             pc += 2;
             break;
         }
@@ -224,7 +222,6 @@ void Chip8::emulateCycle() {
             x = V[(opcode & 0x0F00) >> 8];
             y = V[(opcode & 0x00F0) >> 4];
 
-            // TODO: Make draw an own function
             V[0xF] = 0;
             for (int yline = 0; yline < height; yline++) {
                 pixel = memory[I + yline];
@@ -265,7 +262,7 @@ void Chip8::emulateCycle() {
                     break;
                 }
                 default: {
-                    printf ("Unknown opcode: 0x%X\n", opcode);
+                    std::cout << "Unknown opcode: 0x" << std::uppercase << std::hex << opcode << "\n" ;
                     break;
                 }
             }
@@ -357,11 +354,11 @@ void Chip8::emulateCycle() {
             break;
         }
         default: {
-            printf ("Unknown opcode: 0x%X\n", opcode);
+            std::cout << "Unknown opcode: 0x" << std::uppercase << std::hex << opcode << "\n" ;
         }
     }
 
-    //printf("\nCurrent opcode: 0x%X\n", opcode);
+    std::cout << "\nCurrent opcode: 0x" << std::uppercase << std::hex << opcode << "\n" ;
 
     // Update timers
     if (delay_timer > 0) {
@@ -370,7 +367,7 @@ void Chip8::emulateCycle() {
 
     if (sound_timer > 0) {
         if (sound_timer == 1) {
-            printf("Beep!\n");
+            std::cout << "Beep!\n";
             --sound_timer;
         }
     }
@@ -389,14 +386,14 @@ bool Chip8::loadProgram(std::string name) {
     programFile = fopen(c_name, "rb");
 
     // Read the program to the memory
-    if (programFile == NULL) {
+    if (programFile == nullptr) {
         return false;
     } else {
         int c;
         while ((c = fgetc(programFile)) != EOF) {
             memory[memoryIndex] = c;
             ++memoryIndex;
-            printf("\nOpcode: %02x", c);
+            std::cout << "\nOpcode: " << std::uppercase << std::hex << c ;
         }
     }
     return true;
@@ -445,69 +442,53 @@ void Chip8::loadFontset() {
 
 void Chip8::setKeys() {
     clearKeys();
-    const Uint8* currentKeyStates = SDL_GetKeyboardState( NULL );
+    const Uint8* currentKeyStates = SDL_GetKeyboardState(nullptr);
     if(currentKeyStates[SDL_SCANCODE_1]) {
-        //printf("\n1 pressed");
         key[0] = 1;
     }
     if (currentKeyStates[SDL_SCANCODE_2]) {
-        //printf("\n2 Pressed");
         key[1] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_3]) {
-        //printf("\n3 pressed");
         key[2] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_4]) {
-        //printf("\n4 pressed");
         key[3] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_Q]) {
-        //printf("\nQ pressed");
         key[4] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_W]) {
-        //printf("\nW pressed");
         key[5] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_E]) {
-        //printf("\nE pressed");
         key[6] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_R]) {
-        //printf("\nR pressed");
         key[7] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_A]) {
-        //printf("\nA pressed");
         key[8] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_S]) {
-        //printf("\nS pressed");
         key[9] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_D]) {
-        //printf("\nD pressed");
         key[10] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_F]) {
-        //printf("\nF pressed");
         key[11] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_Z]) {
-        //printf("\nZ pressed");
         key[12] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_X]) {
-        //printf("\nX pressed");
         key[13] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_C]) {
-        //printf("\nC pressed");
         key[14] = 1;
     }
     if(currentKeyStates[SDL_SCANCODE_V]) {
-        //printf("\nV pressed");
         key[15] = 1;
     }
 }
