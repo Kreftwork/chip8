@@ -1,8 +1,6 @@
 #include "chip8.h"
-
 #include <iostream>
 #include <ctime>
-
 #include <SDL.h>
 
 void Chip8::initialize() {

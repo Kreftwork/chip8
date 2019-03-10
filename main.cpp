@@ -1,21 +1,17 @@
+#include "chip8.h"
 #include <iostream>
 #include <SDL.h>
-#include "chip8.h"
 
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 640;
 
 // The window we'll be rendering to
-SDL_Window* gWindow = NULL;
-
-// The surface contained by the window
-SDL_Surface* gScreenSurface = NULL;
+SDL_Window* gWindow = nullptr;
 
 // The window renderer
-SDL_Renderer* gRenderer = NULL;
+SDL_Renderer* gRenderer = nullptr;
 
 Chip8 myChip8;
-
 
 bool setupGraphics();
 void drawGraphics();

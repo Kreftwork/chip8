@@ -2,7 +2,6 @@
 #define CHIP8_CHIP8_H
 
 #include <string>
-#include <stdio.h>
 
 class Chip8 {
 public:
