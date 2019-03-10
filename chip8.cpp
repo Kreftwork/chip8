@@ -1,7 +1,3 @@
-//
-// Created by tatu on 10.8.2018.
-//
-
 #include "chip8.h"
 
 #include <iostream>

@@ -1,7 +1,3 @@
-//
-// Created by tatu on 10.8.2018.
-//
-
 #ifndef CHIP8_CHIP8_H
 #define CHIP8_CHIP8_H
 
